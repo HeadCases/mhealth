@@ -122,6 +122,11 @@ knn <- function(newpt){
   oe[order(dist)[2:6],]
 }
 
+
+
 # 1 - emprically calculate the sensitivity of each of 10 patients to additional delays
 # 2 - produce a 'see in this order' - operational research / auto triage
+
+
+
 

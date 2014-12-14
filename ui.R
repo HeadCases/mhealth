@@ -9,6 +9,7 @@ shinyUI(fluidPage(
   sliderInput("verbal", label = h5("GCS_VERBAL"), min = 1, max = 5, value = 1),
   sliderInput("left", label = h5("PUPIL_REACT_LEFT"), min = 1, max = 3, value = 1),
   sliderInput("right", label = h5("PUPIL_REACT_RIGHT"), min = 1, max = 3, value = 1),
+  actionButton("action", label = "Queue Patient"),
   
   hr(),
   fluidRow(column(3, verbatimTextOutput("value"))),
