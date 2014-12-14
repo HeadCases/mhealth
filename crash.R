@@ -1,6 +1,7 @@
 
 # EO_Outcome
 
+# Box transform - play with link function
 # TODO - get better results from SVM
 # TODO - get better results from tree
 # TODO - Do test/train for ROC
@@ -127,6 +128,11 @@ sensitivity <- function(nd,mins){
   nd$MINS_SINCE_INJURY <- nd$MINS_SINCE_INJURY + mins
   p1 <- predict(r.mgcv,newdata=nd,type="response")[[1]]
   floor(10000*(p1 - p))/100
+}
+
+# Life expectancy UK  is 83
+qaly <- function(oe,sensit){
+  max(1,83-oe$AGE)*oe$delta
 }
 
 # 1 - emprically calculate the sensitivity of each of 10 patients to additional delays

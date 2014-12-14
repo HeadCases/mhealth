@@ -13,7 +13,5 @@ shinyUI(fluidPage(
   
   hr(),
   fluidRow(column(3, verbatimTextOutput("value"))),
-  fluidRow(
-    dataTableOutput(outputId="table")
-  )  
+  fluidRow(dataTableOutput(outputId="table"))  
 ))
