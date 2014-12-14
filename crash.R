@@ -1,6 +1,8 @@
 
 # EO_Outcome
 
+# TODO - use to benchmark against current practise
+
 # Box transform - play with link function
 # TODO - get better results from SVM
 # TODO - get better results from tree
@@ -113,7 +115,7 @@ knn <- function(newpt){
 }
 
 library(shiny)
-runApp("mhealth")
+
 
 knn <- function(newpt){
   
@@ -123,6 +125,7 @@ knn <- function(newpt){
   oe[order(dist)[2:6],]
 }
 
+# As percentage
 sensitivity <- function(nd,mins){
   p <- predict(r.mgcv,newdata=nd,type="response")[[1]]
   nd$MINS_SINCE_INJURY <- nd$MINS_SINCE_INJURY + mins
@@ -130,9 +133,10 @@ sensitivity <- function(nd,mins){
   floor(10000*(p1 - p))/100
 }
 
-# Life expectancy UK  is 83
+# Expected life years lost by delaying treatment
+# (Life expectancy UK is 83)
 qaly <- function(oe,sensit){
-  max(1,83-oe$AGE)*oe$delta
+  max(1,83-oe$AGE)*oe$delta/100
 }
 
 # 1 - emprically calculate the sensitivity of each of 10 patients to additional delays
@@ -140,6 +144,6 @@ qaly <- function(oe,sensit){
 
 
 
-
+runApp("mhealth")
 
 
