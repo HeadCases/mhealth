@@ -1,7 +1,15 @@
 
 # EO_Outcome
 
+# TODO - get better results from SVM
+# TODO - get better results from tree
+# TODO - Do test/train for ROC
+# TODO - get SVD from LDA
+# TODO - Kernel ridge regression
+
 c <- crash <- read.csv(file="/home/alex/mhealth/freebird-crash-injury-emergency-bank/CRASH_dataset head Injury.csv",head=TRUE,sep=",")
+
+
 
 # Primary outcomes - death within 2 weeks
 # 1 = Death in hospital
@@ -58,9 +66,6 @@ sum(c(0,diff(roc$falsepos))*roc$truepos) # 0.8324163
 r.glm3 <- glm(death~AGE,data=oe,family=binomial())
 p <- predict(r.glm3,newdata=oe,type="response")
 
-# TODO - get SVD from LDA
-# TODO - Kernel ridge regression
-
 # Try a GAM - might be able to do something smarter with age and time since injury
 library(mgcv)
 
@@ -98,8 +103,25 @@ library(e1071)
 r.svm <- svm(death~.,data=oe,scale=TRUE)
 p <- predict(r.svm, oe)
 
+# knn in class doesn't seem to offer return of 
+knn <- function(newpt){
+  
+  scaled <- scale(rbind(newpt,oe)) 
+  dist <- abs(scaled %*% scaled[1,])
+  oe[order(dist)[1:5],]
+}
+
 library(shiny)
 runApp("mhealth")
 
+knn <- function(newpt){
+  
+  scaled <- scale(rbind(newpt,oe[,2:8])) 
+  dist <- t(apply(X=scaled,MARGIN=1,FUN=function(x){x - scaled[1,]}))
+  dist <- apply(dist,MARGIN=1,FUN=function(x){sqrt(sum(x^2))})
+  oe[order(dist)[2:6],]
+}
 
+# 1 - emprically calculate the sensitivity of each of 10 patients to additional delays
+# 2 - produce a 'see in this order' - operational research / auto triage
 

@@ -11,6 +11,8 @@ shinyUI(fluidPage(
   sliderInput("right", label = h5("PUPIL_REACT_RIGHT"), min = 1, max = 3, value = 1),
   
   hr(),
-  fluidRow(column(3, verbatimTextOutput("value")))
-  
+  fluidRow(column(3, verbatimTextOutput("value"))),
+  fluidRow(
+    dataTableOutput(outputId="table")
+  )  
 ))
