@@ -1,14 +1,17 @@
 shinyServer(function(input, output) {
   
   values <- reactiveValues()
-  values$current <- oe[0,2:8]
-  values$queue <- oe[0,2:8]
+  tmp <- oe[0,1:8]
+  names(tmp)[1] <- "delta"
+  values$current <- tmp
+  values$queue <- tmp
   
   # You can access the value of the widget with input$num, e.g.
   output$value <- renderPrint({ 
     # input$num 
     # AGE MINS_SINCE_INJURY GCS_EYE GCS_MOTOR GCS_VERBAL PUPIL_REACT_LEFT PUPIL_REACT_RIGHT
-    nd <- data.frame(AGE=c(input$age),
+    nd <- data.frame(delta=c(0),
+                     AGE=c(input$age),
                      MINS_SINCE_INJURY=c(input$mins),
                      GCS_EYE=c(input$eye),
                      GCS_MOTOR=c(input$motor),
@@ -24,8 +27,11 @@ shinyServer(function(input, output) {
 
       #knn(nd)
       input$action
-      values$queue <- rbind(isolate(values$current),isolate(values$queue))
-      values$queue
+      curr <- isolate(values$current)
+      curr$delta <- sensitivity(curr,60)
+      values$queue <- rbind(curr,isolate(values$queue))
+      # Order by sensitivity
+      values$queue[order(isolate(values$queue$delta),decreasing=TRUE),]
     })
 
   

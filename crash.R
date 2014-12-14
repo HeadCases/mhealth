@@ -122,10 +122,17 @@ knn <- function(newpt){
   oe[order(dist)[2:6],]
 }
 
-
+sensitivity <- function(nd,mins){
+  p <- predict(r.mgcv,newdata=nd,type="response")[[1]]
+  nd$MINS_SINCE_INJURY <- nd$MINS_SINCE_INJURY + mins
+  p1 <- predict(r.mgcv,newdata=nd,type="response")[[1]]
+  floor(10000*(p1 - p))/100
+}
 
 # 1 - emprically calculate the sensitivity of each of 10 patients to additional delays
 # 2 - produce a 'see in this order' - operational research / auto triage
+
+
 
 
 
